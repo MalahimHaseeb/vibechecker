@@ -1,0 +1,8 @@
+.venv/
+venv/
+__pycache__/
+mlruns/
+models/
+data/
+.ipynb_checkpoints/
+pr.txt
