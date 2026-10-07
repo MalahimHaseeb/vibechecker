@@ -4,6 +4,5 @@ __pycache__/
 mlruns/
 mlartifacts/
 mlflow.db
-models/
 data/
 .ipynb_checkpoints/
