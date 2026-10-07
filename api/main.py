@@ -12,7 +12,7 @@ LABELS = {-1: "negative", 0: "neutral", 1: "positive"}
 
 model = joblib.load(MODEL_PATH)
 
-app = FastAPI()
+app = FastAPI(title="VibeChecker API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,8 +25,16 @@ class PredictRequest(BaseModel):
     comments: list[str]
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 @app.post("/predict")
 def predict(req: PredictRequest):
+    if not req.comments:
+        return {"labels": [], "counts": {name: 0 for name in LABELS.values()}, "total": 0}
+
     cleaned = [clean_text(c) for c in req.comments]
     preds = model.predict(cleaned)
     labels = [LABELS[int(p)] for p in preds]
